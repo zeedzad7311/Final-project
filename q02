@@ -1,0 +1,29 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load the dataset
+path = 'D:\\ปี4\\transaction.csv'
+df = pd.read_csv(path)
+
+# Check the first few rows of the dataframe
+print(df.head())
+
+# Filter for Mastercard (MC) transactions only
+df_mc = df[df['cardType'] == 'VISA']
+
+# Group by 'shipping state' and calculate the total transaction amount for each state
+df_mc_grouped = df_mc.groupby('shippingCountry')['quantity'].sum().reset_index()
+
+# Plotting the horizontal bar chart
+plt.figure(figsize=(6.4, 50.4))  # Adjust the figure size if necessary
+sns.barplot(x='quantity', y='shippingCountry', data=df_mc_grouped, orient='h')
+
+# Customize the plot
+plt.title('Visa Transaction Amounts by shippingState')
+plt.xlabel('Total Transaction Amount')
+plt.ylabel('shippingCountry')
+
+
+# Show the plot
+plt.show()

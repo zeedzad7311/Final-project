@@ -1,0 +1,29 @@
+# Import necessary libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import yfinance as yf
+
+# Define the ticker list
+tickers_list = ['AAPL', 'WMT', 'IBM', 'MU', 'BA', 'AXP']
+
+# Fetch the data
+data = yf.download(tickers_list, '2024-01-01', '2024-09-30')['Adj Close']
+
+# Calculate cumulative returns
+cumulative_returns = (data.pct_change() + 1).cumprod()
+
+# Plot all the close prices
+plt.figure(figsize=(10, 7))
+for ticker in tickers_list:
+    plt.plot(cumulative_returns.index, cumulative_returns[ticker], label=ticker)
+
+# Customize the plot
+plt.legend()
+plt.title("Close Value", fontsize=16)
+plt.ylabel('Cumulative Close Value', fontsize=14)
+plt.xlabel('Time', fontsize=14)
+plt.xticks(rotation=45)
+plt.grid(which="major", color='k', linestyle='-.', linewidth=0.5)
+
+# Display the plot
+plt.show()

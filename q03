@@ -1,0 +1,33 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+
+df = pd.read_csv('D:\\ปี4\\transaction.csv')
+
+# Group by cardType and sum the transaction amounts
+card_totals = df.groupby('cardType')['transactionAmountUSD'].sum().reset_index()
+
+# Create a bar chart
+plt.figure(figsize=(6.4, 50.4))  # Set figure size to 6.4 x 50.4 inches
+
+# Barplot
+sns.barplot(x='cardType', y='transactionAmountUSD', data=card_totals, palette='Set2')
+
+# Add value labels on top of the bars
+for index, row in card_totals.iterrows():
+    plt.text(index, row['transactionAmountUSD'], f'{int(row["transactionAmountUSD"]):,}',
+             color='black', ha="center", va="bottom", fontsize=10)
+
+# Chart decorations
+plt.title('Transaction amount by Card Type', fontsize=14)
+plt.ylabel('USD', fontsize=12)
+plt.xlabel('Card Type', fontsize=12)
+plt.xticks(rotation=45)
+plt.tight_layout()
+
+# Save the chart as a PNG file
+plt.savefig('mychart03.png')
+
+# Display the chart
+plt.show()

@@ -1,0 +1,24 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import requests
+
+# Get the data from the API (for illustration, replace the link with the actual API)
+url = 'https://fakestoreapi.in/api/products'
+response = requests.get(url)
+data = response.json()
+
+# Extracting the prices of products
+prices = [product['price'] for product in data['products'] if product['price'] < 4000]
+
+# Create a DataFrame
+df = pd.DataFrame(prices, columns=['Price'])
+
+# Plot the histogram
+plt.figure(figsize=(10.4, 6.4))
+plt.hist(df['Price'], bins=10,rwidth=0.95)
+plt.xlabel('Price')
+plt.ylabel('Frequency')
+plt.title('Histogram of Product Prices < 4000')
+plt.savefig('hit04.png')
+plt.show()

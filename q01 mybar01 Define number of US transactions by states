@@ -1,0 +1,45 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Use a raw string for the file path to avoid issues with escape characters
+path = 'D:\\ปี4\\transaction.csv'
+
+# Load the CSV file
+df = pd.read_csv(path)
+
+# Check the first few rows of the dataframe to verify the data
+print(df.head())
+
+# Filter out rows where shippingCountry is null
+df2 = df[df['shippingCountry'].notnull()]
+
+# Filter rows where shippingCountry is 'US'
+df3 = df2.query("shippingCountry in ('US')")
+
+# Fill missing values in 'shippingState' with 'N/A' and convert to uppercase
+df3.loc[:, 'shippingState'] = df3['shippingState'].fillna('N/A').str.upper()
+
+# Create a list of unique states
+state_list = df3['shippingState'].unique().tolist()
+
+# Print state list to verify
+print("State List:", state_list)
+
+# Count the number of transactions for each state
+num_transactions_state = []
+for state in state_list:
+    num_transactions = len(df3[df3['shippingState'] == state])
+    num_transactions_state.append(num_transactions)
+
+# Print the transaction counts for each state to verify
+print("Number of transactions per state:", num_transactions_state)
+
+# Plot a bar chart showing the number of transactions per state
+plt.figure(figsize=(20.4, 6.4))
+plt.bar(state_list, num_transactions_state)
+
+# Save the chart as a PNG file
+plt.savefig('mychart01.png')
+
+# Show the chart
+plt.show()

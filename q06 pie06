@@ -38,43 +38,4 @@ plt.savefig('pie06.png')
 
 # Show the chart
 plt.show()
-import requests
-import matplotlib.pyplot as plt
-import numpy as np
 
-# Define the API URL
-api_url = 'https://fakestoreapi.in/api/products'
-
-# Fetch data from the API
-response = requests.get(api_url)
-data = response.json()
-
-# Assuming the structure is {"products": [...]} after inspecting the response
-products = data if isinstance(data, list) else data.get('products', [])
-
-# Extract product categories and count them
-category_counts = {}
-for product in products:
-    category = product['category']
-    if category in category_counts:
-        category_counts[category] += 1
-    else:
-        category_counts[category] = 1
-
-# Prepare data for the pie chart
-labels = list(category_counts.keys())
-sizes = list(category_counts.values())
-
-# Create the pie chart
-plt.figure(figsize=(6, 6))  # Default size
-plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140,
-        colors=plt.cm.Blues(np.linspace(0.2, 0.7, len(labels))))
-
-# Equal aspect ratio ensures that pie is drawn as a circle
-plt.axis('equal')
-
-# Save the pie chart as a PNG file
-plt.savefig('pie06.png')
-
-# Show the chart
-plt.show()
